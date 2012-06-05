@@ -1,0 +1,14 @@
+{
+  "name": "statsd-zabbix-backend",
+  "description": "A backend for StatsD to emit stats to Zabbix",
+  "author": "Parker DeBardelaben",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/parkerd/statsd-zabbix-backend.git"
+  },
+  "version": "0.1.0",
+  "engine": {
+    "node": ">=0.4"
+  },
+  "main": "lib/zabbix.js"
+}
