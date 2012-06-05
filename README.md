@@ -1,4 +1,4 @@
-# StatsD Zabbix publisher backend
+# StatsD Zabbix backend
 
 ## Overview
 This is a pluggable backend for [StatsD](https://github.com/etsy/statsd), which publishes stats to Zabbix.
