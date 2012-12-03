@@ -24,7 +24,7 @@ This plugin is primarily designed for use with logstash > statsd > zabbix piplin
 Send your host:key separated by an underscore, for example: example.com_my.key:1|c
 
 ### Logstash
-Logstash automatically converts hostnames like example.com to example_com, but unfortunately doesn't currently do this for keys.  Until that is changed, ensure that your keys use _ instead of . when separating fields.  This backend will convert all _ in the hostname and key to . before sending to zabbix.  For example: increment => "my_key" will send logstash.source_host.my_key:1|c
+Logstash automatically converts hostnames like example.com to example_com.  This backend will convert all _ in both hostname and key to . before sending to zabbix, but it should also work as expected to use . as the key separator in your logstash config.
 
 ## Issues
 I have only tested using counters, but changes have been made so other metric types should work.
