@@ -25,12 +25,18 @@ This plugin is primarily designed for use with logstash > statsd > zabbix piplin
 ### General
 Send your host:key separated by an underscore, for example: `host.example.com_my.key:1|c`
 
-Zabbix will receive data for host "host.example.com" on key "my.key".
+Zabbix will receive data for host "host.example.com" on key "my.key" of type "Zabbix trapper".
 
 ### Logstash
-Logstash automatically converts hostnames like example.com to example_com. Using the general example, logstash would send: `logstash.host_example_com.my_key:1|c`
+Logstash's statsd output sends data in the format namespace.sender.metric.
 
-Underscores are converted back to periods, so Zabbix will receive data for host "host.example.com" on key "my.key".
+- namespace: default is "logstash"
+- sender: default is "%{host}", replacing dots with underscores
+- metric: name of the metric used in increment
+
+To use this plugin, assign metric names in your logstash config using underscores like "my_key" to have Zabbix receive data on key "my.key" of type "Zabbix trapper".
+
+Using the general example, logstash would send: `logstash.host_example_com.my_key:1|c`.
 
 ## Issues
 I have only tested using counters, but changes have been made so other metric types should work.
