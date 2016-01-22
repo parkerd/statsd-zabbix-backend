@@ -10,5 +10,8 @@
   "engine": {
     "node": ">=0.4"
   },
-  "main": "lib/zabbix.js"
+  "main": "lib/zabbix.js",
+  "dependencies" : {
+    "unit.js": "*"
+  }
 }
