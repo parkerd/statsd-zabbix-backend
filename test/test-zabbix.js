@@ -30,4 +30,13 @@ describe('Test key parsing', function() {
         test.assert(obj.key == "first.second");
     });
 
+
+    it('some logstash key with no logstash namespace', function() {
+        var obj = zabbix.zabbix_host_key("blabla.host_1.first_second");
+
+        test.assert(obj.host == "host_1");
+        test.assert(obj.key == "first_second");
+    });
+
+
 });
