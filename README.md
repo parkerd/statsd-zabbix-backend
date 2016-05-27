@@ -34,7 +34,11 @@ All Zabbix items are expected to be type "Zabbix trapper" to support receiving d
 
 Send your host:key separated by an underscore, for example: `host.example.com_my.key:1|c`
 
-See Logstash examples for specific keys Zabbix will receive based on metric type.
+Alternatively, configure statsd with `hostname` in order to set a static
+hostname to be sent to zabbix. For example, you may run statsd on each
+zabbix monitored host and configure statsd-zabbix-backend to always send the
+hostname of the current host. This is useful for sources other than logstash
+which do not encode the hostname in the statsd key.
 
 ### Logstash
 
@@ -43,6 +47,8 @@ Logstash's statsd output sends data in the format namespace.sender.metric.
 - namespace: default is "logstash"
 - sender: default is "%{host}", replacing dots with underscores
 - metric: name of the metric used in increment
+
+See Logstash examples for specific keys Zabbix will receive based on metric type.
 
 #### Counters
 
