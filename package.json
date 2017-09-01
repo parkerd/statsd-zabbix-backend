@@ -1,5 +1,5 @@
 {
-  "name": "statsd-zabbix-backend",
+  "name": "@freecycle/statsd-zabbix-backend",
   "description": "A backend for StatsD to emit stats to Zabbix",
   "author": "Parker DeBardelaben",
   "repository": {
@@ -8,10 +8,13 @@
   },
   "version": "0.2.0",
   "engine": {
-    "node": ">=0.10"
+    "node": ">=8.x"
   },
   "main": "lib/zabbix.js",
-  "devDependencies" : {
+  "devDependencies": {
     "unit.js": "*"
+  },
+  "dependencies": {
+    "node-zabbix-sender": "^1.0.8"
   }
 }

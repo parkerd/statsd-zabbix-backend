@@ -3,6 +3,7 @@
 ## Overview
 
 This is a pluggable backend for [StatsD](https://github.com/etsy/statsd), which publishes stats to Zabbix.
+This fork adds the option of using the node-zabbix-sender module instead of a separate zabbix-sender binary.
 
 ## Installation
 
@@ -39,6 +40,7 @@ hostname to be sent to zabbix. For example, you may run statsd on each
 zabbix monitored host and configure statsd-zabbix-backend to always send the
 hostname of the current host. This is useful for sources other than logstash
 which do not encode the hostname in the statsd key.
+Leave zabbixSender config variable unset to use the node-zabbix-sender module.
 
 ### Logstash
 
