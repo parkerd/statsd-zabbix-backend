@@ -17,7 +17,7 @@ This is a pluggable backend for [StatsD](https://github.com/etsy/statsd), which 
   percentThreshold: [95, 99],
   backends: ["statsd-zabbix-backend"],
   zabbixPort: 10051,
-  zabbixHost: "localhost",
+  zabbixHost: "zabbix.example.com",
   zabbixTimestamps: true,
   hostname: "statsd.example.com"
 }
