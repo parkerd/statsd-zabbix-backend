@@ -1,4 +1,4 @@
-# StatsD Zabbix backend
+# StatsD Zabbix backend [![Build Status](https://travis-ci.org/parkerd/statsd-zabbix-backend.svg?branch=master)](https://travis-ci.org/parkerd/statsd-zabbix-backend)
 
 Backend for [StatsD](https://github.com/etsy/statsd) to publish stats to Zabbix.
 
@@ -11,11 +11,12 @@ Backend for [StatsD](https://github.com/etsy/statsd) to publish stats to Zabbix.
   - [Options](#options)
 - [Usage](#usage)
   - [Zabbix](#zabbix)
-  - [General](#general)
+  - [Stat Names](#stat-names)
   - [Static Hostname](#static-hostname)
   - [Logstash](#logstash)
     - [Counters](#counters)
     - [Timers](#timers)
+    - [Gauges](#gauges)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
