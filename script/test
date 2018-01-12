@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e
+cd "$(dirname "$0")/.."
+
+tags=(6-alpine 8-alpine 9-alpine)
+
+for tag in ${tags[@]}; do
+  echo $tag
+
+  mount=/src
+  cache=$PWD/.cache/node_modules-$tag
+  mkdir -p $cache
+
+  docker run --rm -it \
+    --name testing \
+    -v $PWD:$mount \
+    -v $cache:$mount/node_modules \
+    -w $mount \
+    node:$tag sh -c 'node --version && npm install && npm test'
+done

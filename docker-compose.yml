@@ -1,0 +1,120 @@
+version: '2'
+services:
+  statsd:
+    image: node:6-alpine
+    command: node /src/statsd/stats.js /src/statsd-zabbix-backend/examples/docker.js
+    environment:
+      NODE_PATH: /src
+    ports:
+      - "8125:8125/udp"
+      - "8126:8126"
+    volumes:
+      - ../statsd:/src/statsd:ro
+      - ./:/src/statsd-zabbix-backend:rw
+      - ./.cache/node_modules-6-alpine:/src/statsd-zabbix-backend/node-modules:rw
+    links:
+      - zabbix-server:zabbix-server
+    networks:
+      zbx_net:
+        aliases:
+          - statsd
+
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:alpine-3.4-latest
+    ports:
+      - "10051:10051"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./.zabbix/usr/lib/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
+      - ./.zabbix/usr/lib/zabbix/externalscripts:/usr/lib/zabbix/externalscripts:ro
+      - ./.zabbix/var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
+      - ./.zabbix/var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
+      - ./.zabbix/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+      - ./.zabbix/var/lib/zabbix/mibs:/var/lib/zabbix/mibs:ro
+    links:
+     - mysql-server:mysql-server
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+      mem_limit: 512m
+    env_file:
+      - .env_zabbix
+    user: root
+    networks:
+      zbx_net:
+        aliases:
+          - zabbix-server
+          - zabbix-server-mysql
+          - zabbix-server-alpine-mysql
+          - zabbix-server-mysql-alpine
+    labels:
+      com.zabbix.description: "Zabbix server with MySQL database support"
+      com.zabbix.company: "Zabbix SIA"
+      com.zabbix.component: "zabbix-server"
+      com.zabbix.dbtype: "mysql"
+      com.zabbix.os: "alpine"
+
+  zabbix-web-nginx-mysql:
+    image: zabbix/zabbix-web-nginx-mysql:alpine-3.4-latest
+    ports:
+      - "8081:80"
+      - "8443:443"
+    links:
+      - mysql-server:mysql-server
+      - zabbix-server:zabbix-server
+    mem_limit: 512m
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./.zabbix/etc/ssl/nginx:/etc/ssl/nginx:ro
+    env_file:
+      - .env_zabbix
+    user: root
+    networks:
+      zbx_net:
+        aliases:
+          - zabbix-web-nginx-mysql
+          - zabbix-web-nginx-alpine-mysql
+          - zabbix-web-nginx-mysql-alpine
+    labels:
+      com.zabbix.description: "Zabbix frontend on Nginx web-server with MySQL database support"
+      com.zabbix.company: "Zabbix SIA"
+      com.zabbix.component: "zabbix-frontend"
+      com.zabbix.webserver: "nginx"
+      com.zabbix.dbtype: "mysql"
+      com.zabbix.os: "alpine"
+
+  mysql-server:
+    image: mysql:5.7
+    command: [mysqld, --character-set-server=utf8, --collation-server=utf8_bin]
+    volumes_from:
+      - db_data_mysql
+    volume_driver: local
+    env_file:
+      - .env_zabbix
+    user: root
+    networks:
+      zbx_net:
+        aliases:
+          - mysql-server
+          - zabbix-database
+          - mysql-database
+
+  db_data_mysql:
+    image: busybox
+    volumes:
+      - ./.zabbix/var/lib/mysql:/var/lib/mysql:rw
+
+networks:
+  zbx_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.238.0/24
+        gateway: 172.16.238.1

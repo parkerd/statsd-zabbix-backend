@@ -1,0 +1,9 @@
+---
+env:
+  node: true
+  mocha: true
+extends:
+  - airbnb
+rules:
+  eol-last: 0
+  valid-jsdoc: 1
