@@ -1,16 +1,15 @@
+const hostname = require('os').hostname();
 const assert = require('assert');
 const events = require('events');
 const logger = require('util');
 const forEach = require('mocha-each');
 const sinon = require('sinon');
 const zabbix = require('../lib/zabbix');
-const hostname = require('os').hostname();
 
 const config = {
   flushInterval: 1,
 };
 const ee = new events.EventEmitter();
-
 
 describe('decode stat -> {host, key}', () => {
   forEach([

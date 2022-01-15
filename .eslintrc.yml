@@ -3,7 +3,7 @@ env:
   node: true
   mocha: true
 extends:
-  - airbnb
+  - airbnb-base
 rules:
   eol-last: 0
   valid-jsdoc: 1
